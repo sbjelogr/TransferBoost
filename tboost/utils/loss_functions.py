@@ -1,8 +1,9 @@
 import numpy as np
+import pandas as pd
 
 
 def loss_from_leaves(y_leaf, y_true, loss_func):
-    """Calculate the gradients and hessian of the logloss functions
+    """Calculate the gradients and hessian of the logloss functions.
 
     Args:
         y_leaf (np.array or pd.Series): output of the leaves of the tre
@@ -28,8 +29,6 @@ def logloss(y_pred, y_true):
     Returns:
         tuple: (np.array, np.array), gradient and hessian for the observations
     """
-    #     prob = 1.0 / (1.0 + np.exp(-y_pred))
-
     if isinstance(y_pred, pd.Series):
         y_pred = y_pred.values
     if isinstance(y_true, pd.Series):
