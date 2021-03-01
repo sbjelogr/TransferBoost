@@ -1,7 +1,7 @@
 import numpy as np
 
 from .utils import assure_numpy_array
-from .loss_functions import logloss, loss_from_leaves
+from .loss_functions import logloss, _logistic
 
 
 def _calculate_leaf_values(leaves_ixs, grad, hess, tree_index, model_params):
@@ -19,6 +19,7 @@ def _calculate_leaf_values(leaves_ixs, grad, hess, tree_index, model_params):
     """
     reg_lambda = model_params["reg_lambda"]
     learning_rate = model_params["learning_rate"]
+    # learning_rate = 1
 
     leaf_vals = {}
     # Find the leaves indices for the tree ix
@@ -59,6 +60,10 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
     X = assure_numpy_array(X)
     leaves_ixs = assure_numpy_array(leaves_ixs)
 
+    assert X.shape[0] == leaves_ixs.shape[0]
+
+    learning_rate = model_params["learning_rate"]
+
     # Define the starting vector of leaves for the t
     if not 0 < start_proba < 1:
         raise ValueError(f"Starting proba must be between 0 and 1. Passed {start_proba}")
@@ -66,7 +71,7 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
     print(f"start leaf = {start_odds}")
 
     # define the first array (starting point for the leaf outputs calculations)
-    pred_array = start_odds * np.ones(shape=(X.shape[0], 1))
+    leaves_val_array = start_odds * np.ones(shape=(X.shape[0], 1))
 
     n_trees = leaves_ixs.shape[1]
 
@@ -79,21 +84,40 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
     for tree_index in range(n_trees):
 
         # Define the prediction of the trees up to tree_index-1 (sum along axis 1)
-        prev_pred = pred_array.sum(axis=1)
-        # prev_pred = pred_array[:,tree_index]
-        # print(f'\ntree_index = {tree_index}')
-        # print(prev_pred)
-        # print(y)
+        prev_proba = compute_probability(leaves_val_array, learning_rate=learning_rate, tree_index=tree_index)
 
         # comput the gradient and hessian by using the predictions from the previous tree.
-        g, h = loss_from_leaves(prev_pred, y, loss_func=f_loss_func)
+        g, h = f_loss_func(prev_proba, y)
 
         leaf_vals_ix = _calculate_leaf_values(
             leaves_ixs=leaves_ixs, grad=g, hess=h, tree_index=tree_index, model_params=model_params
         )
-        pred_array = np.hstack([pred_array, leaf_vals_ix.reshape(-1, 1)])
+        leaves_val_array = np.hstack([leaves_val_array, leaf_vals_ix.reshape(-1, 1)])
 
-    return pred_array
+    return leaves_val_array
+
+
+def compute_probability(leaves_val_array, tree_index=None):
+    """Compute the probability given the outputs of the leaves.
+
+    Args:
+        leaves_val_array (np.array): two dimensional numpy array. expected shape( n_rows x n_trees+1).
+            Contains the output of the leaves of the model. The first column must correspond to the
+            "bias" term.
+            Works with the output of recompute_leaves().
+        tree_index (integer): index of the tree where to truncate the calculation of the probabilities.
+
+    Returns:
+        np.array: array of predicted probabilities for class 1 at the tree_index^th tree
+    """
+    if tree_index is None:
+        tree_index = leaves_val_array.shape[0]
+
+    # start_val = leaves_val_array[:,0]
+    # normal_leaves = leaves_val_array[:,1:(tree_index+1)]
+    return _logistic(leaves_val_array[:, : (tree_index + 1)].sum(axis=1))
+
+    # return _logistic(start_val + normal_leaves.sum(axis=1))
 
 
 # def _recompute_leaves(model, X, y):
