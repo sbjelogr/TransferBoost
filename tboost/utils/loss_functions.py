@@ -15,7 +15,8 @@ def loss_from_leaves(y_leaf, y_true, loss_func):
         [type]: [description]
     """
     # Apply the sigmoid transformation to the leaf values (transfrom it to probability)
-    prob = _sigmoid(y_leaf)
+    prob = _logistic(y_leaf)
+    # print(f"Probabilities:\n{prob}")
 
     return loss_func(prob, y_true)
 
@@ -41,3 +42,7 @@ def logloss(y_pred, y_true):
 
 def _sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
+
+
+def _logistic(x):
+    return np.exp(x) / (1.0 + np.exp(x))
