@@ -6,9 +6,10 @@ def loss_from_leaves(y_leaf, y_true, loss_func):
     """Calculate the gradients and hessian of the logloss functions.
 
     Args:
-        y_leaf (np.array or pd.Series): output of the leaves of the tre
-        y_true (np.array or pd.Series): [description]
-        loss_func ([type], optional): [description]. Defaults to logloss.
+        y_leaf (np.array or pd.Series): output of the leaves of the latest tree
+        y_true (np.array or pd.Series): true binary target
+        loss_func (function): loss function to be used. Must return a tuple of arrays,
+            corresponding to the gradient and hessian of the loss function.
 
     Returns:
         [type]: [description]
