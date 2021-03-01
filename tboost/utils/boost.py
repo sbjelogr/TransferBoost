@@ -62,8 +62,6 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
 
     assert X.shape[0] == leaves_ixs.shape[0]
 
-    learning_rate = model_params["learning_rate"]
-
     # Define the starting vector of leaves for the t
     if not 0 < start_proba < 1:
         raise ValueError(f"Starting proba must be between 0 and 1. Passed {start_proba}")
@@ -84,7 +82,7 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
     for tree_index in range(n_trees):
 
         # Define the prediction of the trees up to tree_index-1 (sum along axis 1)
-        prev_proba = compute_probability(leaves_val_array, learning_rate=learning_rate, tree_index=tree_index)
+        prev_proba = compute_probability(leaves_val_array, tree_index=tree_index)
 
         # comput the gradient and hessian by using the predictions from the previous tree.
         g, h = f_loss_func(prev_proba, y)
@@ -106,6 +104,8 @@ def compute_probability(leaves_val_array, tree_index=None):
             "bias" term.
             Works with the output of recompute_leaves().
         tree_index (integer): index of the tree where to truncate the calculation of the probabilities.
+            tree_index = 0 will return the probability of the base score (defaul 0.5 in Xgboost).
+            tree_index = 1 returns the predicted probability of the 1st tree.
 
     Returns:
         np.array: array of predicted probabilities for class 1 at the tree_index^th tree
@@ -113,43 +113,4 @@ def compute_probability(leaves_val_array, tree_index=None):
     if tree_index is None:
         tree_index = leaves_val_array.shape[0]
 
-    # start_val = leaves_val_array[:,0]
-    # normal_leaves = leaves_val_array[:,1:(tree_index+1)]
     return _logistic(leaves_val_array[:, : (tree_index + 1)].sum(axis=1))
-
-    # return _logistic(start_val + normal_leaves.sum(axis=1))
-
-
-# def _recompute_leaves(model, X, y):
-#     start_pred = np.ones(shape=X.shape[0])
-#     print(start_pred.shape)
-
-#     try:
-#         leaves = model.predict(X, pred_leaf=True)
-#     except:
-#         leaves = model.apply(X)
-
-#     n_trees = leaves.shape[1]
-#     print(n_trees)
-
-#     pred = start_pred
-#     #     g,h = logloss_from_leaves(pred, y)
-
-#     preds = list()
-#     preds.append(pred)
-
-#     pred_array = pred.reshape(-1, 1)
-
-#     for tree_index in range(n_trees):
-
-#         prev_pred = pred_array.sum(axis=1)
-#         g, h = logloss_from_leaves(prev_pred, y)
-#         pred = return_leaf(leaves, g, h, tree_index=tree_index, model_params=model.get_params())
-#         preds.append(pred)
-
-#         pred_array = np.hstack([pred_array, pred.reshape(-1, 1)])
-#         print(pred_array.shape)
-
-#     model_leaves = np.transpose(reduce(lambda x, y: np.vstack([x, y]), preds))  # [:,1:]
-
-#     return leaves, model_leaves, pred_array
