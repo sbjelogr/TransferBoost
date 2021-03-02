@@ -8,7 +8,8 @@ from tboost.utils import recompute_leaves, compute_probability
 def rec_leaf_values(X_y, leaves_indexes, model_params):
     """Fixture to recompute the leaf values."""
     X, y = X_y
-    return recompute_leaves(leaves_indexes, X, y, model_params=model_params)
+    remapped_leaves, leaf_mapping = recompute_leaves(leaves_indexes, X, y, model_params=model_params)
+    return remapped_leaves
 
 
 def test_recompute_leaves(rec_leaf_values, leaves_values):
