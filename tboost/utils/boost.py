@@ -97,7 +97,7 @@ def recompute_leaves(leaves_ixs, X, y, start_proba=0.5, loss_func="logloss", mod
         )
         leaves_val_array = np.hstack([leaves_val_array, leaf_vals_ix.reshape(-1, 1)])
 
-        leaf_vals_map[tree_index] = leaf_vals_ix
+        leaf_vals_map[tree_index] = leaf_vals_map_ix
 
     return leaves_val_array, leaf_vals_map
 
