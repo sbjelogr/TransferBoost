@@ -6,8 +6,6 @@ try:
     import xgboost as xgb
 except ImportError as e:
     raise ImportError("No xgboost installed. Please install via pip install xgboost") from e
-# except:
-#     raise ModuleNotFoundError("No xgboost installed. Please install via pip install xgboost")
 
 
 class XGBTransferLearner(TBoost):
