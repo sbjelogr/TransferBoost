@@ -1,0 +1,17 @@
+site_name: TransferBoost
+repo_url: https://github.com/sbjelogr/TransferBoost
+
+theme:
+  name: readthedocs
+  palette:
+    scheme: preference
+
+nav:
+  - Home: index.md
+  - Getting started: 1_Getting_started.ipynb
+
+plugins:
+  - mknotebooks:
+      enable_default_jupyter_cell_styling: true
+      enable_default_pandas_dataframe_styling: true
+
