@@ -64,7 +64,16 @@ class XGBTransferLearner(TBoost):
         if f_obj is None:
             f_obj = "logloss"
 
-        super().__init__(model_params=model_params, loss_func=f_obj, start_proba=base_score)
+        super().__init__(model_params=model_params, loss_func=f_obj, base_score=base_score)
+
+    def __repr__(self):
+        """Object representation for class XGBTransferLearner."""
+        repr_ = f"XGBTransferLearner with base model\n\t{self.model}\n"
+
+        if self.base_score is not None:
+            repr_ += f"base_score = {self.base_score}"
+
+        return repr_
 
     def fit(self, X, y):
         """Fit the XGBTransferLearner.

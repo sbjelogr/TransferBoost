@@ -10,26 +10,26 @@ class TBoost:
     To be inherited in tboost.models.xgb or tboost.models.lgb
     """
 
-    def __init__(self, model_params=None, loss_func="logloss", start_proba=0.5):
+    def __init__(self, model_params=None, loss_func="logloss", base_score=0.5):
         """Constructor for TBoost.
 
         Args:
             model_params (dict): contains the model parameters of the boosted model.
             loss_func (str or function): loss function, returns gradient and hessians
                 of the loss function. Currently supports only loss_func=='logloss'
-            start_proba (float): starting probability, 0.5 by default for xgb.
+            base_score (float): starting probability, 0.5 by default for xgb.
         """
         self.model_params = model_params
         if loss_func == "logloss":
             self.f_loss_func = logloss
         else:
             raise NotImplementedError(f"Loss function {loss_func} not supported currently")
-        self.start_proba = start_proba
+        self.base_score = base_score
 
         # Define the starting vector of leaves for the t
-        if not 0 < self.start_proba < 1:
-            raise ValueError(f"Starting proba must be between 0 and 1. Passed {self.start_proba}")
-        self.start_odds = np.log(self.start_proba / (1 - self.start_proba))
+        if not 0 < self.base_score < 1:
+            raise ValueError(f"Starting proba must be between 0 and 1. Passed {self.base_score}")
+        self.start_odds = np.log(self.base_score / (1 - self.base_score))
 
     def _fit(self, X_leaves_ixs, y):
         """Recompute the output value of the leaves.
