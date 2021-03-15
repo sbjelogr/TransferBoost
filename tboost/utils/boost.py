@@ -10,23 +10,33 @@ class TBoost:
     To be inherited in tboost.models.xgb or tboost.models.lgb
     """
 
-    def __init__(self, model_params=None, loss_func="logloss", base_score=0.5):
+    def __init__(self, model_params=None, loss_func="logloss", base_score=None):
         """Constructor for TBoost.
 
         Args:
             model_params (dict): contains the model parameters of the boosted model.
             loss_func (str or function): loss function, returns gradient and hessians
                 of the loss function. Currently supports only loss_func=='logloss'
-            base_score (float): starting probability, 0.5 by default for xgb.
+            base_score (float): starting probability, None by default.
         """
         self.model_params = model_params
         if loss_func == "logloss":
             self.f_loss_func = logloss
         else:
             raise NotImplementedError(f"Loss function {loss_func} not supported currently")
+
+        if base_score is not None:
+            self._set_base_score(base_score)
+
+    def _set_base_score(self, base_score):
+        """Set the base score.
+
+        Args:
+            base_score (float): base score.
+        """
         self.base_score = base_score
 
-        # Define the starting vector of leaves for the t
+        # Define the starting vector of leaves for the tboost
         if not 0 < self.base_score < 1:
             raise ValueError(f"Starting proba must be between 0 and 1. Passed {self.base_score}")
         self.start_odds = np.log(self.base_score / (1 - self.base_score))
@@ -63,6 +73,8 @@ class TBoost:
         self.leaves_val_array_ = self.start_odds * np.ones(shape=(n_rows, 1))
 
         self.n_trees_ = X_leaves_ixs.shape[1]
+
+        print(X_leaves_ixs.shape)
 
         self.leaf_vals_map_ = {}
         # Loop over all the trees.
