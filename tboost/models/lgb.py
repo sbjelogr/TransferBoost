@@ -8,7 +8,7 @@ except ImportError as e:
     raise ImportError("No xgboost installed. Please install via pip install lightgbm") from e
 
 
-class LGBTransferLearner(TBoost):
+class LGBMTransferLearner(TBoost):
     """Main class to transfer boost a trained xgb model.
 
     Example of use
