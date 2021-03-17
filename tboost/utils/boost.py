@@ -74,8 +74,6 @@ class TBoost:
 
         self.n_trees_ = X_leaves_ixs.shape[1]
 
-        print(X_leaves_ixs.shape)
-
         self.leaf_vals_map_ = {}
         # Loop over all the trees.
         for tree_index in range(self.n_trees_):
