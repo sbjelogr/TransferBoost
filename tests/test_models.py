@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xgboost as xgb
 import lightgbm as lgb
-from tboost.models import XGBTransferLearner, LGBTransferLearner
+from tboost.models import XGBTransferLearner, LGBMTransferLearner
 from sklearn.exceptions import NotFittedError
 
 
@@ -39,12 +39,12 @@ def test_tboost_vs_lgb(X_y) -> None:
     )
 
     with pytest.raises(NotFittedError):
-        LGBTransferLearner(model)
+        LGBMTransferLearner(model)
 
     model.fit(X, y)
     probas = model.predict_proba(X)
 
-    tbooster = LGBTransferLearner(model)
+    tbooster = LGBMTransferLearner(model)
     tbooster.fit(X, y)
 
     tboost_probas = tbooster.predict_proba(X)
