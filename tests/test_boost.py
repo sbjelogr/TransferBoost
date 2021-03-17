@@ -8,7 +8,7 @@ from tboost.utils import TBoost
 def rec_leaf_values(X_y, leaves_indexes, model_params):
     """Fixture to recompute the leaf values."""
     X, y = X_y
-    tb = TBoost(model_params=model_params)._fit(leaves_indexes, y)
+    tb = TBoost(model_params=model_params, base_score=0.5)._fit(leaves_indexes, y)
 
     remapped_leaves = tb._apply_leaf_map(leaves_indexes)
     return remapped_leaves
