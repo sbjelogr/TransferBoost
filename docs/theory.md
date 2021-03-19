@@ -34,14 +34,17 @@ tree structures and re-calculates the leaf values by using the new targets, as s
 ![Transfer Model](../images/transfer_model.jpg)
 
 
-## More in detail (finalize)
+## More in detail 
 
 In order to recalculate tle leaf values,
 `tboost` leverages on the equation used by XGBoost and Lightgbm to calculate the optimal leaf values, ie.
 
-$w_{j} = -\frac{\sum_{i \in I_{j} g_{i}}{\sum_{i \in I_{j} h_{i} + \lambda}$
+$$
+w_{j} = \frac{\sum_{i \in I_{j}} g_{i}}{\sum_{i \in I_{j}} h_{i} + \lambda}
+$$
 
-where `j` represents the index of the leaf, `I_{j}` represeents all the entries ending up in the j-th leaf.
+
+where `j` represents the index of the leaf, `I_{j}` represents all the entries ending up in the j-th leaf.
 `g` and `h` represent the gradient and hessian of the loss function. <br>
 
 The following steps are performed in order to recalculate the leaf values: <br>
