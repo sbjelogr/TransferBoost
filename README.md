@@ -1,8 +1,8 @@
-# TransferBoost (tboost)
+# TransferBoost (transferboost)
 Tooling for transfer learning with Boosting Models
 
 
-## Installing tboost
+## Installing transferboost
 Install `transferboost` directly from pip<br>
 `pip install transferboost`
 
