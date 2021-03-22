@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xgboost as xgb
 import lightgbm as lgb
-from tboost.models import XGBTransferLearner, LGBMTransferLearner
+from transferboost.models import XGBTransferLearner, LGBMTransferLearner
 from sklearn.exceptions import NotFittedError
 
 

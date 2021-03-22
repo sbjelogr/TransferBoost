@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from tboost.utils import TBoost
+from transferboost.utils import TBoost
 
 
 @pytest.fixture

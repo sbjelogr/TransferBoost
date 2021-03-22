@@ -10,12 +10,12 @@ pytest tests/test_docstring.py --verbose
 """
 
 import pytest
-import tboost.models
+import transferboost.models
 
 
 # List of all classes and functions we want tested
 # MODULES_TO_TEST = []
-CLASSES_TO_TEST = [tboost.models.XGBTransferLearner]
+CLASSES_TO_TEST = [transferboost.models.XGBTransferLearner]
 # FUNCTIONS_TO_TEST = []
 
 

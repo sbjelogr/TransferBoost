@@ -7,7 +7,7 @@ from .loss_functions import logloss, _logistic
 class TBoost:
     """Base class for Transfer Boosting.
 
-    To be inherited in tboost.models.xgb or tboost.models.lgb
+    To be inherited in transferboost.models.xgb or transferboost.models.lgb
     """
 
     def __init__(self, model_params=None, loss_func="logloss", base_score=None):
@@ -36,7 +36,7 @@ class TBoost:
         """
         self.base_score = base_score
 
-        # Define the starting vector of leaves for the tboost
+        # Define the starting vector of leaves for the transferboost
         if not 0 < self.base_score < 1:
             raise ValueError(f"Starting proba must be between 0 and 1. Passed {self.base_score}")
         self.start_odds = np.log(self.base_score / (1 - self.base_score))

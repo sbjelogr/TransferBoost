@@ -16,7 +16,7 @@ def load_data(return_X_y=False, as_frame=False):
         - is both are false (default setting): returns a dictionary where the key `data` contains the features,
         and the key `target` is the target
     """
-    file = pkgutil.get_data("tboost", "data/data.zip")
+    file = pkgutil.get_data("transferboost", "data/data.zip")
     df = pd.read_csv(io.BytesIO(file), compression="zip")
 
     if as_frame:

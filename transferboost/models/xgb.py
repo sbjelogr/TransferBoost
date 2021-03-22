@@ -1,5 +1,5 @@
-from tboost.utils.boost import TBoost
-from tboost.utils import UnsupportedModelError
+from transferboost.utils.boost import TBoost
+from transferboost.utils import UnsupportedModelError
 from sklearn.utils.validation import check_is_fitted
 
 try:
@@ -13,9 +13,9 @@ class XGBTransferLearner(TBoost):
 
     Example of use
     ```python
-        import tboost
-        from tboost.dataset import load_data
-        from tboost.models import XGBTransferLearner
+        import transferboost
+        from transferboost.dataset import load_data
+        from transferboost.models import XGBTransferLearner
         import xgboost as xgb
 
         # Get X and two targets

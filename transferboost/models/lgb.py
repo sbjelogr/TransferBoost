@@ -1,5 +1,5 @@
-from tboost.utils.boost import TBoost
-from tboost.utils import UnsupportedModelError, assure_numpy_array
+from transferboost.utils.boost import TBoost
+from transferboost.utils import UnsupportedModelError, assure_numpy_array
 from sklearn.utils.validation import check_is_fitted
 
 try:
@@ -13,9 +13,9 @@ class LGBMTransferLearner(TBoost):
 
     Example of use
     ```python
-        import tboost
-        from tboost.dataset import load_data
-        from tboost.models import LGBTransferLearner
+        import transferboost
+        from transferboost.dataset import load_data
+        from transferboost.models import LGBTransferLearner
 
         import lightgbm as lgb
 
