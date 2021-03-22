@@ -7,7 +7,7 @@ Install `transferboost` directly from pip<br>
 `pip install transferboost`
 
 ## Documentation
-The documentation can be found [here](https://sbjelogr.github.io/TransferBoost)
+The documentation can be found [here](https://sbjelogr.github.io/TransferBoost).
 
 ## Supported models
 `transferboost` supports the transfer learning for the following models:<br>
