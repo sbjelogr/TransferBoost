@@ -9,7 +9,7 @@ def read(fname):
 
 setuptools.setup(
     name="transferboost",
-    version="0.1",
+    version="0.1.1",
     description="Transfer Learning with Gradient Boosting Models",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
