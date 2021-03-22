@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>How it works - TransferBoost</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../css/ansi-colours.css" rel="stylesheet" />
+  <link href="../css/jupyter-cells.css" rel="stylesheet" />
+  <link href="../css/pandas-dataframe.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "How it works";
+    var mkdocs_page_input_path = "theory.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> TransferBoost</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">How it works</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#example">Example</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#starting-task">Starting task</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#transfer-learning-process">Transfer learning process</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#more-in-detail">More in detail</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../1_Getting_started/">Getting started</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">TransferBoost</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>How it works</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/sbjelogr/TransferBoost/edit/master/docs/theory.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="how-it-works">How it works</h1>
+<p><code>transferboost</code> applies the idea of
+<a href="https://en.wikipedia.org/wiki/Transfer_learning">Transfer Learning</a> to 
+gradient boosting models.<br>
+Transfer learning focuses on "storing knowledge gained while solving one problem and applying 
+it to a different but related problem" (cit Wikipedia).<br>
+Within the context of gradient boosted trees, the knowledge of one task is encoded 
+the tree structure that was learned during the training process. </p>
+<h2 id="example">Example</h2>
+<p>The cartoon depicted in the <a href="https://xgboost.readthedocs.io/en/latest/tutorials/model.html">XGboost documentation</a>
+and in the <a href="https://arxiv.org/pdf/1603.02754.pdf">XGBoost Paper</a> is a good example to illustrate how 
+<code>transferboost</code> works.</p>
+<h4 id="starting-task">Starting task</h4>
+<p>Consider this being a shallow, two-tree-xgboost model, trained to predict if a person likes video games.
+The first tree splits the population in two groups, based on age, while the second splits the population 
+based on the daily usage of a computer.</p>
+<p><img alt="Standard model" src="../images/std_model.png" /></p>
+<h4 id="transfer-learning-process">Transfer learning process</h4>
+<p>Consider the use case where you want to switch use case, from predicting if a person likes video games to 
+if the person watches netflix.<br>
+The tree structure learned in the previous task might not be the optimal, but it might still have 
+predictive power to predict the new task.<br>
+When performing the transfer learning, <code>transferboost</code> assigns new values of every leaf by keeping the learned 
+tree structures and re-calculates the leaf values by using the new targets, as shown in the image<br></p>
+<p><img alt="Transfer Model" src="../images/transfer_model.jpg" /></p>
+<h2 id="more-in-detail">More in detail</h2>
+<p>In order to recalculate tle leaf values,
+<code>transferboost</code> leverages on the equation used by XGBoost and Lightgbm to calculate the optimal leaf values, ie.</p>
+<div class="arithmatex">\[
+w_{j} = \frac{\sum_{i \in I_{j}} g_{i}}{\sum_{i \in I_{j}} h_{i} + \lambda}
+\]</div>
+<p>where <code>j</code> represents the index of the leaf, <code>I_{j}</code> represents all the entries ending up in the j-th leaf.
+<code>g</code> and <code>h</code> represent the gradient and hessian of the loss function. <br></p>
+<p>The following steps are performed in order to recalculate the leaf values: <br>
+- <code>transferboost</code> remaps the data to the leaf by applying the trained 
+xgboost or lightgbm model, in order to obtain <code>I_{j}</code>.<br>
+- the gradient <code>g</code> and hessian <code>h</code> are computed using the new target <code>y2</code>
+- once the gradients and hessians are calculated, the leaf outputs follow as per the equation above.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../1_Getting_started/" class="btn btn-neutral float-right" title="Getting started">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/sbjelogr/TransferBoost/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../1_Getting_started/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../javascripts/config.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

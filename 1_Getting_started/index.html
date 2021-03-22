@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Getting started - TransferBoost</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link href="../css/ansi-colours.css" rel="stylesheet" />
+  <link href="../css/jupyter-cells.css" rel="stylesheet" />
+  <link href="../css/pandas-dataframe.css" rel="stylesheet" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Getting started";
+    var mkdocs_page_input_path = "1_Getting_started.ipynb";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> TransferBoost</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../theory/">How it works</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Getting started</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#xgbtransferlearner-transfer-learning-with-xgboost">XGBTransferLearner: transfer learning with xgboost</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#train-an-xgboost-model-and-transfer-learn-it">Train an xgboost model and transfer learn it</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learning">Get the predicted probabilities with the transfer learning.</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#lgbmtransferlearner-transfer-learning-with-ligthgbm">LGBMTransferLearner: transfer learning with ligthgbm</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#train-an-loightgbm-model-and-transfer-learn-it">Train an loightgbm model and transfer learn it</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learning_1">Get the predicted probabilities with the transfer learning.</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">TransferBoost</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Getting started</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/sbjelogr/TransferBoost/edit/master/docs/1_Getting_started.ipynb"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        widgetRendererSrc = 'jupyter-js-widgets@*/dist/embed.js';
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="getting-started-with-transferboost">Getting started with transferboost</h1>
+<p>This is quick start tutorial providing code snippets for getting started with tboost.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="xgbtransferlearner-transfer-learning-with-xgboost">XGBTransferLearner: transfer learning with xgboost</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">import warnings
+warnings.filterwarnings('ignore')
+
+import transferboost as tb
+from transferboost.dataset import load_data
+
+# Load the data
+X, y1, y2 = load_data(return_X_y=True)
+</code></pre>
+
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="train-an-xgboost-model-and-transfer-learn-it">Train an xgboost model and transfer learn it</h3>
+<p>Train an <code>xgboost</code> model on the first target, with <code>y1</code></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">import xgboost as xgb
+
+xgb_model = xgb.XGBClassifier(
+    max_depth = 2,
+    reg_lambda = 0,
+    n_estimators=100,
+    verbosity = 0
+)
+
+xgb_model.fit(X,y1)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>XGBClassifier(base_score=0.5, booster=&#39;gbtree&#39;, colsample_bylevel=1,
+              colsample_bynode=1, colsample_bytree=1, gamma=0, gpu_id=-1,
+              importance_type=&#39;gain&#39;, interaction_constraints=&#39;&#39;,
+              learning_rate=0.300000012, max_delta_step=0, max_depth=2,
+              min_child_weight=1, missing=nan, monotone_constraints=&#39;()&#39;,
+              n_estimators=100, n_jobs=4, num_parallel_tree=1, random_state=0,
+              reg_alpha=0, reg_lambda=0, scale_pos_weight=1, subsample=1,
+              tree_method=&#39;exact&#39;, validate_parameters=1, verbosity=0)</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Transfer Learners expect a fitted model in the constructor.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">from transferboost.models import XGBTransferLearner
+
+t_xgb_model = XGBTransferLearner(xgb_model)
+</code></pre>
+
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Perfrom the "transfer learning" by fitting the XGBTransferLearner on another target, <code>y2</code> in this case.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">t_xgb_model.fit(X,y2)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>XGBTransferLearner with base model
+    XGBClassifier(base_score=0.5, booster=&#39;gbtree&#39;, colsample_bylevel=1,
+              colsample_bynode=1, colsample_bytree=1, gamma=0, gpu_id=-1,
+              importance_type=&#39;gain&#39;, interaction_constraints=&#39;&#39;,
+              learning_rate=0.300000012, max_delta_step=0, max_depth=2,
+              min_child_weight=1, missing=nan, monotone_constraints=&#39;()&#39;,
+              n_estimators=100, n_jobs=4, num_parallel_tree=1, random_state=0,
+              reg_alpha=0, reg_lambda=0, scale_pos_weight=1, subsample=1,
+              tree_method=&#39;exact&#39;, validate_parameters=1, verbosity=0)
+base_score = 0.5</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="get-the-predicted-probabilities-with-the-transfer-learning">Get the predicted probabilities with the transfer learning.</h3>
+<p><code>XGBTransferLearner.predicted_proba(X)</code> returns the the probabilities (as in any sklearn API).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">t_xgb_model.predict_proba(X)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>array([[0.70023316, 0.29976684],
+       [0.70499377, 0.29500623],
+       [0.91163901, 0.08836099],
+       ...,
+       [0.60772859, 0.39227141],
+       [0.76717276, 0.23282724],
+       [0.80914091, 0.19085909]])</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="lgbmtransferlearner-transfer-learning-with-ligthgbm">LGBMTransferLearner: transfer learning with ligthgbm</h2>
+<p>If the baseline model is a lightgbm, the transfer learning procedure is very similar.</p>
+<h3 id="train-an-loightgbm-model-and-transfer-learn-it">Train an loightgbm model and transfer learn it</h3>
+<p>As in the xgboost case, train a LGBM classifier on target <code>y1</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">import lightgbm as lgb
+
+lgb_model = lgb.LGBMClassifier(
+    max_depth = 2,
+    reg_lambda = 0,
+    n_estimators=100,
+    verbosity = 0
+)
+
+lgb_model.fit(X,y1)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+<code>[LightGBM] [Warning] Auto-choosing col-wise multi-threading, the overhead of testing was 0.002426 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+</code>
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>LGBMClassifier(max_depth=2, reg_lambda=0, verbosity=0)</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Use the <code>LGBMTransferLearner</code> class </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">from transferboost.models import LGBMTransferLearner
+
+t_lgb_model = LGBMTransferLearner(lgb_model)
+</code></pre>
+
+
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Transfer-learn the model to the new target (<code>y2</code>)</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">t_lgb_model.fit(X,y2)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>XGBTransferLearner with base model
+    LGBMClassifier(max_depth=2, reg_lambda=0, verbosity=0)
+base_score = 0.3</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="get-the-predicted-probabilities-with-the-transfer-learning_1">Get the predicted probabilities with the transfer learning.</h3>
+<p><code>LGBMTransferLearner.predicted_proba(X)</code> returns the the probabilities (as in any sklearn API).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+
+<pre><code class="language-python">t_lgb_model.predict_proba(X)
+</code></pre>
+
+
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_text output_subarea output_execute_result">
+<pre>
+<code>array([[0.67982818, 0.32017182],
+       [0.92096689, 0.07903311],
+       [0.81908308, 0.18091692],
+       ...,
+       [0.53578214, 0.46421786],
+       [0.80567013, 0.19432987],
+       [0.67593326, 0.32406674]])</code>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../theory/" class="btn btn-neutral" title="How it works"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/sbjelogr/TransferBoost/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../theory/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../javascripts/config.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
