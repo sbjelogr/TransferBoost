@@ -1,6 +1,6 @@
-# TransferBoost (transferboost)
+# transferboost 
 
-TransferBoost (`transferboost`) is a package that implements the concept of transfer learning 
+`transferboost` is a package that implements the concept of transfer learning 
 to gradient boosting models.<br>
 
 ## Supported models
