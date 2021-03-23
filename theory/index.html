@@ -112,7 +112,7 @@ gradient boosting models.<br>
 Transfer learning focuses on "storing knowledge gained while solving one problem and applying 
 it to a different but related problem" (cit Wikipedia).<br>
 Within the context of gradient boosted trees, the knowledge of one task is encoded 
-the tree structure that was learned during the training process. </p>
+in the tree structure that was learned during the training process. </p>
 <h2 id="example">Example</h2>
 <p>The cartoon depicted in the <a href="https://xgboost.readthedocs.io/en/latest/tutorials/model.html">XGboost documentation</a>
 and in the <a href="https://arxiv.org/pdf/1603.02754.pdf">XGBoost Paper</a> is a good example to illustrate how 
@@ -123,20 +123,21 @@ The first tree splits the population in two groups, based on age, while the seco
 based on the daily usage of a computer.</p>
 <p><img alt="Standard model" src="../images/std_model.png" /></p>
 <h4 id="transfer-learning-process">Transfer learning process</h4>
-<p>Consider the use case where you want to switch use case, from predicting if a person likes video games to 
-if the person watches netflix.<br>
+<p>Consider the use case where you want to switch problem, from predicting if a person likes video games to 
+predicting if the person watches Netflix.<br>
 The tree structure learned in the previous task might not be the optimal, but it might still have 
-predictive power to predict the new task.<br>
-When performing the transfer learning, <code>transferboost</code> assigns new values of every leaf by keeping the learned 
-tree structures and re-calculates the leaf values by using the new targets, as shown in the image<br></p>
+predictive power to predict the new target.<br>
+When performing  transfer learning, <code>transferboost</code> assigns new values of every leaf by keeping the learned 
+tree structures and re-calculating the leaf values with the new targets, as shown in the image<br></p>
 <p><img alt="Transfer Model" src="../images/transfer_model.jpg" /></p>
 <h2 id="more-in-detail">More in detail</h2>
-<p>In order to recalculate tle leaf values,
+<p>In order to recalculate the leaf values,
 <code>transferboost</code> leverages on the equation used by XGBoost and Lightgbm to calculate the optimal leaf values, ie.</p>
 <div class="arithmatex">\[
 w_{j} = \frac{\sum_{i \in I_{j}} g_{i}}{\sum_{i \in I_{j}} h_{i} + \lambda}
 \]</div>
-<p>where <code>j</code> represents the index of the leaf, <code>I_{j}</code> represents all the entries ending up in the j-th leaf.
+<p>where <code>j</code> represents the index of the leaf, <code>I_{j}</code> represents the subset of observations being mapped to the <code>j-th</code>
+leaf.
 <code>g</code> and <code>h</code> represent the gradient and hessian of the loss function. <br></p>
 <p>The following steps are performed in order to recalculate the leaf values: <br>
 - <code>transferboost</code> remaps the data to the leaf by applying the trained 

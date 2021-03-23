@@ -59,17 +59,17 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#xgbtransferlearner-transfer-learning-with-xgboost">XGBTransferLearner: transfer learning with xgboost</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#train-an-xgboost-model-and-transfer-learn-it">Train an xgboost model and transfer learn it</a>
+    <li class="toctree-l3"><a class="reference internal" href="#train-an-xgboost-model-and-perform-the-transfer-learning">Train an xgboost model and perform the "transfer learning"</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learning">Get the predicted probabilities with the transfer learning.</a>
+    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learned-model">Get the predicted probabilities with the transfer-learned model.</a>
     </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#lgbmtransferlearner-transfer-learning-with-ligthgbm">LGBMTransferLearner: transfer learning with ligthgbm</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#train-an-loightgbm-model-and-transfer-learn-it">Train an loightgbm model and transfer learn it</a>
+    <li class="toctree-l3"><a class="reference internal" href="#train-a-lightgbm-model-and-perform-the-transfer-learning">Train a lightgbm model and perform the "transfer learning"</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learning_1">Get the predicted probabilities with the transfer learning.</a>
+    <li class="toctree-l3"><a class="reference internal" href="#get-the-predicted-probabilities-with-the-transfer-learned-model_1">Get the predicted probabilities with the transfer-learned model.</a>
     </li>
         </ul>
     </li>
@@ -173,7 +173,7 @@ X, y1, y2 = load_data(return_X_y=True)
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="train-an-xgboost-model-and-transfer-learn-it">Train an xgboost model and transfer learn it</h3>
+<h3 id="train-an-xgboost-model-and-perform-the-transfer-learning">Train an xgboost model and perform the "transfer learning"</h3>
 <p>Train an <code>xgboost</code> model on the first target, with <code>y1</code></p>
 </div>
 </div>
@@ -274,7 +274,7 @@ base_score = 0.5</code>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="get-the-predicted-probabilities-with-the-transfer-learning">Get the predicted probabilities with the transfer learning.</h3>
+<h3 id="get-the-predicted-probabilities-with-the-transfer-learned-model">Get the predicted probabilities with the transfer-learned model.</h3>
 <p><code>XGBTransferLearner.predicted_proba(X)</code> returns the the probabilities (as in any sklearn API).</p>
 </div>
 </div>
@@ -311,7 +311,7 @@ base_score = 0.5</code>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="lgbmtransferlearner-transfer-learning-with-ligthgbm">LGBMTransferLearner: transfer learning with ligthgbm</h2>
 <p>If the baseline model is a lightgbm, the transfer learning procedure is very similar.</p>
-<h3 id="train-an-loightgbm-model-and-transfer-learn-it">Train an loightgbm model and transfer learn it</h3>
+<h3 id="train-a-lightgbm-model-and-perform-the-transfer-learning">Train a lightgbm model and perform the "transfer learning"</h3>
 <p>As in the xgboost case, train a LGBM classifier on target <code>y1</code>.</p>
 </div>
 </div>
@@ -339,7 +339,7 @@ lgb_model.fit(X,y1)
 <div class="output_area">
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-<code>[LightGBM] [Warning] Auto-choosing col-wise multi-threading, the overhead of testing was 0.002426 seconds.
+<code>[LightGBM] [Warning] Auto-choosing col-wise multi-threading, the overhead of testing was 0.002838 seconds.
 You can set `force_col_wise=true` to remove the overhead.
 </code>
 </pre>
@@ -407,7 +407,7 @@ base_score = 0.3</code>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="get-the-predicted-probabilities-with-the-transfer-learning_1">Get the predicted probabilities with the transfer learning.</h3>
+<h3 id="get-the-predicted-probabilities-with-the-transfer-learned-model_1">Get the predicted probabilities with the transfer-learned model.</h3>
 <p><code>LGBMTransferLearner.predicted_proba(X)</code> returns the the probabilities (as in any sklearn API).</p>
 </div>
 </div>
