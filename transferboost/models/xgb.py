@@ -2,11 +2,6 @@ from transferboost.utils.boost import TBoost
 from transferboost.utils import UnsupportedModelError
 from sklearn.utils.validation import check_is_fitted
 
-try:
-    import xgboost as xgb
-except ImportError as e:
-    raise ImportError("No xgboost installed. Please install via pip install xgboost") from e
-
 
 class XGBTransferLearner(TBoost):
     """Main class to transfer boost a trained xgb model.
@@ -50,6 +45,11 @@ class XGBTransferLearner(TBoost):
                 function. To be passed to the constructor of TBoost.
                 Default is None (it will use the standard binary logloss function).
         """
+        try:
+            import xgboost as xgb
+        except ImportError as e:
+            raise ImportError("No xgboost installed. Please install via pip install xgboost") from e
+
         if not isinstance(model, xgb.XGBClassifier):
             msg = f"{self.__class__.__name__} does not support the model {model.__class__.__name__}"
             raise UnsupportedModelError(msg)
