@@ -1,4 +1,5 @@
 import numpy as np
+import warnings
 
 from .utils import assure_numpy_array
 from .loss_functions import logloss, _logistic
@@ -10,7 +11,7 @@ class TBoost:
     To be inherited in transferboost.models.xgb or transferboost.models.lgb
     """
 
-    def __init__(self, model_params=None, loss_func="logloss", base_score=None):
+    def __init__(self, model_params=None, loss_func="logloss", base_score=None, verbosity=0):
         """Constructor for TBoost.
 
         Args:
@@ -18,6 +19,7 @@ class TBoost:
             loss_func (str or function): loss function, returns gradient and hessians
                 of the loss function. Currently supports only loss_func=='logloss'
             base_score (float): starting probability, None by default.
+            verbosity (int): verbosity flag.
         """
         self.model_params = model_params
         if loss_func == "logloss":
@@ -27,6 +29,8 @@ class TBoost:
 
         if base_score is not None:
             self._set_base_score(base_score)
+
+        self.verbosity = verbosity
 
     def _set_base_score(self, base_score):
         """Set the base score.
@@ -114,10 +118,28 @@ class TBoost:
         for tree_index in range(self.n_trees_):
             leaves = X_leaves_ixs[:, tree_index]
 
-            leaf_vals_ix = np.array([self.leaf_vals_map_[tree_index][ix] for ix in leaves])
+            # leaf_vals_ix = np.array([self.leaf_vals_map_[tree_index][ix] for ix in leaves])
+            leaf_vals_ix = np.array([self._get_leaf_value(tree_index, ix) for ix in leaves])
             leaves_val_array = np.hstack([leaves_val_array, leaf_vals_ix.reshape(-1, 1)])
 
         return leaves_val_array
+
+    def _get_leaf_value(self, tree_ix, leaf_ix):
+        """It can happen that when fitting tboost, a specific leaf_ix is never found in the sample.
+
+        For those cases, we should keep the leaf output to be 0
+        Args:
+            tree_ix: tree index
+            leaf_ix: leaf index
+
+        Returns: output of the leaf if leaf_index exists, otherwise 0
+        """
+        try:
+            return self.leaf_vals_map_[tree_ix][leaf_ix]
+        except KeyError:
+            if self.verbosity > 0:
+                warnings.warn(f"Never seen a leaf {leaf_ix} in {tree_ix}, assigning default value of 0")
+            return 0
 
     @staticmethod
     def _calculate_leaf_values(leaves_ixs, grad, hess, tree_index, model_params):

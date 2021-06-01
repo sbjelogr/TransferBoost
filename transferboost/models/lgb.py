@@ -32,7 +32,7 @@ class LGBMTransferLearner(TBoost):
     ```
     """
 
-    def __init__(self, model, base_score=None, f_obj=None):
+    def __init__(self, model, base_score=None, f_obj=None, verbosity=0):
         """Constructor for XGBTransferLearner.
 
         Args:
@@ -42,6 +42,7 @@ class LGBMTransferLearner(TBoost):
             f_obj (str of func): objective function. Must return the gradient and hessian of the desired loss
                 function. To be passed to the constructor of TBoost.
                 Default is None (it will use the standard binary logloss function).
+            verbosity (int): verbosity level. If 0 no outputs printed, if >0 returns warnings
         """
         try:
             import lightgbm as lgb
@@ -61,7 +62,7 @@ class LGBMTransferLearner(TBoost):
         if f_obj is None:
             f_obj = "logloss"
 
-        super().__init__(model_params=model_params, loss_func=f_obj, base_score=base_score)
+        super().__init__(model_params=model_params, loss_func=f_obj, base_score=base_score, verbosity=verbosity)
 
     def __repr__(self):
         """Object representation for class XGBTransferLearner."""
